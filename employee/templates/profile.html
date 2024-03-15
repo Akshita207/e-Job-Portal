@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    <div class="ui modal mymodal">
+      <i class="close icon" id="close-modal-btn"></i>
+      <div class="header">
+        Update your Profile
+      </div>
+      <div class="image content">
+        <div class="ui medium image">
+          {% if employee.photo %}
+            <img class="ui medium rounded image" src={{employee.photo.url}}>
+          {% else %}
+            <img class="ui medium rounded image" src="/media/avatar.png">
+          {% endif %}
+        </div>
+        <div class="description">
+          <div class="ui header">Provide some additional/newest info about you </div>
+          <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+            {% csrf_token %}
+              <p>
+                <label for="id_location">Address:</label>
+                <input type="text" name="location" value="{{employee.location}}" maxlength="200" id="id_location">
+              </p>
+              <p>
+                <label>Achievement:</label>
+                <div id="id_achievements">
+                  {% if employee.achievement|length > 0 %} 
+                    {% for a in employee.achievement %}
+                      {% for val in a.values %}
+                        <div class="id_achievement">
+                          <textarea name="achievement{{forloop.parentloop.counter0}}" cols="40" rows="10" id="achievement{{forloop.parentloop.counter0}}">{{val}}</textarea>
+                          <button class="btn btn-info" type="button" onclick="removeAchievementField(this)">Remove</button>
+                        </div>
+                      {% endfor %}
+                    {% endfor %}
+                  {% else %}
+                    <div class="id_achievement">
+                      <textarea name="achievement0" cols="40" rows="10" id="achievement0"></textarea>
+                      <button class="btn btn-info" type="button" onclick="removeAchievementField(this)">Remove</button>
+                    </div>
+                  {% endif %}
+                </div>
+                <button class="btn btn-info" type="button" onclick="addAchievementField('{{employee.achievement|length}}')">Add More</button>
+              </p>
+              <p>
+                <label for="id_phone_no">Phone no:</label>
+                <input type="text" name="phone_no" value="{{employee.phone_no}}" maxlength="15" id="id_phone_no">
+              </p>
+              <p>
+                <label for="id_photo">Photo:</label>
+                {% if employee.photo %}
+                Currently: <a href="{{employee.photo.url}}">avatar.png</a>
+                <input type="checkbox" name="photo-clear" id="photo-clear_id">
+                <label for="photo-clear_id">Clear</label><br>
+                Change:
+                {% else %}
+                  Add
+                {% endif %}
+                <input type="file" name="photo" accept="image/*" id="id_photo">
+              </p>
+              <p>
+                <label for="id_primary_role">Primary role:</label>
+                <input type="text" name="primary_role" value="{{employee.primary_role}}" maxlength="50" id="id_primary_role">
+              </p>
+              <p>
+                <label for="id_secondary_role">Secondary role:</label>
+                <input type="text" name="secondary_role" value="{{employee.secondary_role}}" maxlength="150" id="id_secondary_role">
+              </p>
+              <p>
+                <label for="id_experience">Experience:</label>
+                <input type="number" name="experience" value="{{employee.experience}}" id="id_experience">
+              </p>
+              <p>
+                <label for="id_bio">Bio:</label>
+                <input type="text" name="bio" value="{{employee.bio}}" maxlength="250" id="id_bio">
+              </p>
+              <p>
+                <label for="id_resume">Resume:</label>
+                {% if employee.resume %}
+                  Currently: <a href="{{employee.resume.url}}">{{employee.resume}}</a>
+                  <input type="checkbox" name="resume-clear" id="resume-clear_id">
+                  <label for="resume-clear_id">Clear</label><br>
+                  Change:
+                {% else %}
+                  Add
+                {% endif %}
+                <input type="file" name="resume" accept="application/pdf" id="id_resume">
+              </p>
+              <p>
+                <label>Social profiles:</label>
+                <label for="id_website">Website:</label>
+                <input type="text" name="website" value="{{employee.social_profiles.website}}" maxlength="250" id="id_website">
+                <label for="id_github">Github:</label>
+                <input type="text" name="github" value="{{employee.social_profiles.github}}" maxlength="250" id="id_github">
+                <label for="id_linkedIn">LinkedIn:</label>
+                <input type="text" name="linkedIn" value="{{employee.social_profiles.linkedIn}}" maxlength="250" id="id_linkedIn">
+                <label for="id_twitter">Twitter:</label>
+                <input type="text" name="twitter" value="{{employee.social_profiles.twitter}}" maxlength="250" id="id_twitter">
+              </p>
+              <p>
+                <label for="id_work_experience">Work experience:</label>
+                <div id="workFields">
+                  {% if employee.work_experience|length > 0 %} 
+                    {% for w in employee.work_experience %}
+                      <div class="workField workField{{forloop.counter0}}">
+                        {% for key, value in w.items %}
+                          {% if 'company' in key %}
+                            <label>Company:</label>
+                            <input type="text" name="wrk-company-{{forloop.parentloop.counter0}}" id="wrk-company-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% elif 'title' in key %}
+                            <label>Title:</label>
+                            <input type="text" name="wrk-title-{{forloop.parentloop.counter0}}" id="wrk-title-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% elif 'sdate' in key %}
+                            <label>Start Date:</label>
+                            <input type="date" name="wrk-sdate-{{forloop.parentloop.counter0}}" id="wrk-sdate-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% elif 'edate' in key %}
+                            <label>End Date: (Do not select end date if still working there.)</label>
+                            <input type="date" name="wrk-edate-{{forloop.parentloop.counter0}}" id="wrk-edate-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% endif %}
+                        {% endfor %}
+                        <button class="btn btn-info" type="button" onclick="removeWorkField(this)">Remove</button>
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    <div class="workField workField0">
+                      <label>Company:</label>
+                      <input type="text" name="wrk-company-0" id="wrk-company-0">
+                      <label>Title:</label>
+                      <input type="text" name="wrk-title-0" id="wrk-title-0">
+                      <label>Start Date:</label>
+                      <input type="date" name="wrk-sdate-0" id="wrk-sdate-0">
+                      <label>End Date: (Do not select end date if still working there.)</label>
+                      <input type="date" name="wrk-edate-0" id="wrk-edate-0">
+                      <button class="btn btn-info" type="button" onclick="removeWorkField(this)">Remove</button>
+                    </div>
+                  {% endif %}
+                </div>
+                <button class="btn btn-info" type="button" onclick="addWorkField('{{employee.work_experience|length}}')">Add More</button>
+              </p>
+              <p>
+                <label for="id_education">Education:</label>
+                <div id="educationFields">
+                  {% if employee.education|length > 0 %} 
+                    {% for e in employee.education %}
+                      <div class="educationField educationField{{forloop.counter0}}">
+                        {% for key, value in e.items %}
+                          {% if 'degree' in key %}
+                            <label>Degree:</label>
+                            <input type="text" name="ed-degree-{{forloop.parentloop.counter0}}" id="ed-degree-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% elif 'university' in key %}
+                            <label>University:</label>
+                            <input type="text" name="ed-university-{{forloop.parentloop.counter0}}" id="ed-university-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% elif 'year' in key %}
+                            <label>Year:</label>
+                            <input type="number" name="ed-year-{{forloop.parentloop.counter0}}" id="ed-year-{{forloop.parentloop.counter0}}" value="{{value}}">
+                          {% endif %}
+                        {% endfor %}
+                        <button class="btn btn-info" type="button" onclick="removeEducationField(this)">Remove</button>
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    <div class="educationField educationField0">
+                      <label>Degree:</label>
+                      <input type="text" name="ed-degree-0" id="ed-degree-0">
+                      <label>University:</label>
+                      <input type="text" name="ed-university-0" id="ed-university-0">
+                      <label>Year:</label>
+                      <input type="number" name="ed-year-0" id="ed-year-0">
+                      <button class="btn btn-info" type="button" onclick="removeEducationField(this)">Remove</button>
+                    </div>
+                  {% endif %}
+                </div>
+                <button class="btn btn-info" type="button" onclick="addEducationField('{{employee.education|length}}')">Add More</button>
+              </p>
+              <p>
+                <label for="id_skills">Skills:</label>
+                <input type="text" name="skills" value="{{employee.skills}}" maxlength="350" id="id_skills">
+              </p>
+              <p>
+                <label for="id_availability">Availability:</label>
+                <select name="availability" id="id_availability">
+                  <option value="">---------</option>
+                  <option value="Ready to interview" selected="">Ready to interview</option>
+                  <option value="Open to offers">Open to offers</option>
+                  <option value="Closed to offers">Closed to offers</option>
+                </select>
+              </p>
+            <div class="actions">
+              <button type='submit' class="ui positive right labeled icon button">
+                Update<i class="checkmark icon"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="profile">
+      {% if confirm %}
+        <div class="ui green message">Your profile has been updated</div>
+      {% elif confirmError != '' %}
+        <div class="ui red message">{{confirmError}}</div>
+      {% endif %}
+      <div class="ui grid">
+        <div class='row'>
+          <div class='six wide column'>
+            <div class="prof-img">
+              {% if employee.photo %}
+                <img class="ui medium rounded image" src={{employee.photo.url}}>
+              {% else %}
+                <img class="ui medium rounded image" src="/media/avatar.png">
+              {% endif %}
+            </div>
+            <h3>{{request.user}}</h3>
+            {{employee.bio}}
+            <div class="row mt-5" style="margin:20px;">
+              <button class='ui secondary button' id='modal-btn'>Update your profile</button>
+            </div>
+          </div>
+          <div class="ten wide column">
+            <table class="table table-striped table-dark">
+              <tbody>
+                <tr>
+                  <td>Username</td>
+                  <td>{{request.user}}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{{request.user.email}}</td>
+                </tr>
+                <tr>
+                  <td>Phone</td>
+                  <td>{{employee.phone_no}}</td>
+                </tr>
+                <tr>
+                  <td>Resume</td>
+                  <td>
+                    {% if employee.resume %}
+                      <a href="{{employee.resume.url}}" target="_blank">{{employee.resume}}</a>
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Address</td>
+                  <td>{{employee.location}}</td>
+                </tr>
+                <tr>
+                  <td>Achievement</td>
+                  <td>
+                    <div class="profCardBox">
+                      {% for a in employee.achievement %}
+                        <div class="profCard">
+                          {% for value in a.values %}
+                          <i class="chevron right icon"></i>{{ value }}
+                          {% endfor %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Primary Role</td>
+                  <td>{{employee.primary_role}}</td>
+                </tr>
+                <tr>
+                  <td>Secondary Role</td>
+                  <td>{{employee.secondary_role}}</td>
+                </tr>
+                <tr>
+                  <td>Experience</td>
+                  <td>{{employee.experience}}</td>
+                </tr>
+                <tr>
+                  <td>Social Profiles</td>
+                  <td>
+                    <div class="profCardBox">
+                      <div class="profCard">
+                        Website: {{employee.social_profiles.website}}
+                      </div>
+                      <div class="profCard">
+                        Github: {{employee.social_profiles.github}}
+                      </div>
+                      <div class="profCard">
+                        LinkedIn: {{employee.social_profiles.linkedIn}}
+                      </div>
+                      <div class="profCard">
+                        Twitter: {{employee.social_profiles.twitter}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Work Experience</td>
+                  <td>
+                    <div class="profCardBox">
+                      {% for w in employee.work_experience %}
+                        <div class="profCard">
+                          {% for value in w.values %}
+                          <i class="chevron right icon"></i>{{ value }} &nbsp;
+                          {% endfor %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Education</td>
+                  <td>
+                    <div class="profCardBox">
+                      {% for e in employee.education %}
+                        <div class="profCard">
+                          {% for value in e.values %}
+                          <i class="chevron right icon"></i>{{ value }} &nbsp;
+                          {% endfor %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Skills</td>
+                  <td>{{employee.skills}}</td>
+                </tr>
+                <tr>
+                  <td>Availability</td>
+                  <td>{{employee.availability}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  var today = new Date().toISOString().split("T")[0];
+  $("input[type='date']").attr('max', today);
+  $(document).on('focus', "input[type='date']", function(){
+    $(this).attr('max', today);
+  });
+</script>
+{% endblock %}

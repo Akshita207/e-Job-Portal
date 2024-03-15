@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    <div style="padding: 3rem 0 0 3rem!important;">
+      <h2>Your Conversations -</h2>
+    </div>
+    {% for thread in threads.all %}
+      <div class="row mb-3 p-5" style="border-bottom: 2px solid white;">
+        <div class="card text-white bg-secondary mb-3 col-md-12 p-3 shadow-sm">
+          <h5>{{ thread.user }} - {{ thread.receiver }}</h5>
+          <a class="stretched-link" href="{% url 'employee:employeeThreadView' thread.pk %}"></a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

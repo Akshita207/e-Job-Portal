@@ -1,0 +1,354 @@
+body {
+  height: auto !important;
+}
+.main-box {
+  width: 100%;
+  height: 100%;
+}
+.home-box {
+  height: 100%;
+  width: 100%;
+  background-image: url('./home-bg.jpg');
+  background-size: cover;
+  min-height: 100vh;
+}
+.home-box h1 {
+  color: white;
+  font-size: 4vw;
+  padding: 2vw;
+  margin-left: 5%;
+  font-family: revert;
+  padding-top: 5vw;
+}
+.home-content {
+  width: 60%;
+  margin: 0 auto;
+  padding: 2vw;
+  color: whitesmoke;
+  border: 7px solid whitesmoke;
+  border-style: ridge;
+}
+.quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1vw;
+  background-color: #f5f5f533;
+}
+.quote h2 {
+  width: fit-content;
+  font-size: 5vw;
+}
+.home-btn {
+  padding: 3vw;
+  display: flex;
+  justify-content: space-around;
+}
+.home-btn span {
+  height: 4vw;
+  border: 1px solid whitesmoke;
+}
+.home-btn a{
+  width: 45%;
+}
+.home-btn button{
+  font-size: 1.5vw !important;
+  width: 100%;
+}
+.form-bg {
+  background-color: #34556b;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.form-box {
+  width: 30%;
+  height: fit-content;
+  margin: 0 auto;
+  margin-top: 3vw;
+  margin-bottom: 3vw;
+  padding: 4vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  background: #1A374D;
+}
+.form-box h2 {
+  color: white;
+  font-family: inherit;
+}
+.form-box label {
+  font-size: 1.5rem !important;
+  color: white !important;
+  font-family: monospace;
+}
+.form-box hr {
+  border: 1px solid white;
+  width: 100%;
+  margin: 0;
+}
+.form-box button {
+  width: fit-content;
+  margin: auto;
+  font-weight: 600;
+}
+.form-box a {
+  color: white;
+  font-size: 1.1rem;
+  text-decoration: underline;
+  font-weight: 600;
+  width: fit-content;
+  margin: auto;
+}
+.form-box a:hover {
+  color: whitesmoke;
+}
+.e-nav {
+  background: #406882;
+  z-index: 345;
+  position: fixed !important;
+  width: 100% !important;
+}
+.e-nav h3, .e-nav a {
+  color: #fff !important;
+}
+.page {
+  background: #1A374D;
+  height: 100%;
+  width: 100%;
+  color: white;
+  min-height: 100vh;
+}
+.page-box {
+  padding: 4vw 10vw;
+  width: 100%;
+}
+.modal-backdrop {
+  z-index: 1 !important;
+}
+.mymodal {
+  height: 90vh !important;
+  top: 5vh !important;
+  font-size: 20px !important;
+}
+.mymodal form {
+  color: black;
+}
+.profile {
+  padding: 2vw 5vw;
+}
+.profile h3 {
+  text-decoration: underline;
+}
+.profCardBox {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.profCard {
+  padding: 10px;
+  background: #808080c7;
+}
+.ui.modal>.close {
+  position: initial !important;
+  color: black !important;
+}
+.job-post {
+  width: 50%;
+  margin: 0 auto;
+  padding: 3vw;
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  align-items: center;
+}
+.job-post h2 {
+  text-decoration: underline;
+  font-weight: 600;
+}
+.job-post form {
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  font-size: 1vw;
+  width: 100%;
+}
+.ui.sidebar {
+  visibility: inherit !important;
+}
+.ui.inverted.menu {
+  background: #284152 !important;
+  padding-top: 4vw;
+}
+.empcard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 700px;
+  height: 400px;
+  position: relative;
+  color: #2d2d2d;
+  background-color: #b2e5e6;
+  letter-spacing: 1px;
+  border: 25px solid #a0cdcf;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  margin-bottom: 2vw;
+}
+.empcard .empcard-description {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+}
+.empcard .empcard-description .empcard-description-title {
+  color: black;
+  font-size: 18px;
+}
+.empcard .empcard-description .empcard-description-subtitle {
+  display: block;
+  font-size: 16px;
+}
+.empcard .empcard-description .empcard-description-skills {
+  display: block;
+  font-size: 14px;
+  cursor: pointer;
+}
+.emp-card-img {
+  width: 450px;
+  height: 100%;
+}
+.empcard-image {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+.empcard-btn-box {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.empcard-btn-box form, .empcard-btn-box form button {
+  height: 100%;
+}
+.empcard-btn {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+.empFilter {
+  display: flex;
+  gap: 1vw;
+  margin-bottom: 2vw;
+  border-bottom: 1px solid white;
+  padding: 2vw 0;
+  align-items: center;
+}
+#empFilterForm input {
+  width: 20% !important;
+}
+.empty-text {
+	color: #fff;
+	font-size: 1.5rem;
+	text-align: center;
+}
+.sent-message {
+	background-color: #17a2b8;
+  border-radius: 30px;
+  padding: 10px 25px;
+  width: 25%;
+  float: right;
+  font-weight: 600;
+}
+.received-message {
+	background-color: rgb(184, 183, 183);
+	color: black;
+	border-radius: 30px;
+	padding: 10px 25px;
+	width: 25%;
+  font-weight: 600;
+}
+.ui.grid {
+  margin-left: 0 !important;
+}
+.checkoutcard {
+  display: flex;
+  flex-direction: column;
+  gap: 1vw;
+  background: #f3f0f0;
+  padding: 5vw;
+  width: 60%;
+  margin: 0 auto;
+  height: 80vh;
+}
+.checkoutcard h1 {
+  color: rgb(123 114 114 / 89%);
+  margin-bottom: 1vw;
+}
+.payment-success {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 7vw;
+  padding: 2vw;
+  background: #e3e2e2;
+  color: green;
+  box-shadow: #277300 0px 10px 20px, #277300 0px 6px 6px;
+}
+.payment-success-icon, .payment-failed-icon {
+  font-size: 20vw !important;
+}
+.payment-success h1, .payment-failed h1 {
+  margin-bottom: 7vw !important;
+}
+.payment-failed {
+  display: flex;
+  width: fit-content;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  gap: 7vw;
+  padding: 2vw;
+  background: #e3e2e2;
+  color: red;
+  box-shadow: #c12929 0px 10px 20px, #c12929 0px 6px 6px;
+}
+.prof-img {
+  height: 50vh;
+}
+.prof-img img {
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+.form button {
+  margin-top: 1vw !important;
+  margin-bottom: 1vw !important;
+}
+.form label {
+  font-weight: 600 !important;
+}
+.center {
+  margin: 0 auto;
+}
+.price-card {
+  height: 300px !important;
+}
+.description {
+  flex-basis: 65% !important;
+}
+.ui.medium.image {
+  flex-basis: 32% !important;
+}
+.image.content {
+  gap: 3% !important;
+}

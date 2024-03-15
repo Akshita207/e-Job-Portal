@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    <h3>Filters:</h3>
+    <div>
+      <form action="" method="POST" id="empFilterForm" class="ui form empFilter" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <label for="name">Name:</label>
+        <input type="text" placeholder="Eg - Akshita" name="name" id="name" value="{{formData.name}}">
+        <label for="name">Experience:</label>
+        <input type="number" placeholder="Eg - 3" name="experience" id="experience" value="{{formData.experience}}">
+        <label for="name">Skills:</label>
+        <input type="text" placeholder="Eg- Html, Css" name="skills" id="skills" value="{{formData.skills}}">
+        <div class="actions">
+          <button type='submit' class="btn btn-light">Apply</button>
+        </div>
+      </form>
+    </div>
+    {% if emp|length == 0 %}
+      No employees available.
+    {% endif %}
+    {% for e in emp %}
+      {% if e.availability != 'Closed to offers' %}
+        <div class="ui modal mymodal mymodal{{forloop.counter0}}">
+          <button style="float: right; margin: 10px;" onclick="hideEmp('mymodal{{forloop.counter0}}')"><i class="close icon" id="close-modal-btn"></i></button>
+          <div class="header"></div>
+          <div class="image content">
+            <div class="ui medium image">
+              <div class="prof-img">
+                {% if e.photo %}
+                  <img class="ui medium rounded image" src={{e.photo.url}}>
+                {% else %}
+                  <img class="ui medium rounded image" src="/media/avatar.png">
+                {% endif %}
+              </div>
+            </div>
+            <div class="description">
+              <table class="table table-striped table-dark">
+                <tbody>
+                  <tr>
+                    <td>Username</td>
+                    <td>{{e.user}}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>{{e.user.email}}</td>
+                  </tr>
+                  <tr>
+                    <td>Phone</td>
+                    <td>{{e.phone_no}}</td>
+                  </tr>
+                  <tr>
+                    <td>Resume</td>
+                    <td>
+                      {% if e.resume %}
+                        <a href="{{e.resume.url}}" target="_blank">{{e.resume}}</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td>{{e.location}}</td>
+                  </tr>
+                  <tr>
+                    <td>Achievement</td>
+                    <td>
+                      <div class="profCardBox">
+                        {% for a in e.achievement %}
+                          <div class="profCard">
+                            {% for value in a.values %}
+                            <i class="chevron right icon"></i>{{ value }} 
+                            {% endfor %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Primary Role</td>
+                    <td>{{e.primary_role}}</td>
+                  </tr>
+                  <tr>
+                    <td>Secondary Role</td>
+                    <td>{{e.secondary_role}}</td>
+                  </tr>
+                  <tr>
+                    <td>Experience</td>
+                    <td>{{e.experience}}</td>
+                  </tr>
+                  <tr>
+                    <td>Social Profiles</td>
+                    <td>
+                      <div class="profCardBox">
+                        <div class="profCard">
+                          Website: {{e.social_profiles.website}}
+                        </div>
+                        <div class="profCard">
+                          Github: {{e.social_profiles.github}}
+                        </div>
+                        <div class="profCard">
+                          LinkedIn: {{e.social_profiles.linkedIn}}
+                        </div>
+                        <div class="profCard">
+                          Twitter: {{e.social_profiles.twitter}}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Work Experience</td>
+                    <td>
+                      <div class="profCardBox">
+                        {% for w in e.work_experience %}
+                          <div class="profCard">
+                            {% for value in w.values %}
+                            <i class="chevron right icon"></i>{{ value }} &nbsp;
+                            {% endfor %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Education</td>
+                    <td>
+                      <div class="profCardBox">
+                        {% for e in e.education %}
+                          <div class="profCard">
+                            {% for value in e.values %}
+                            <i class="chevron right icon"></i>{{ value }} &nbsp;
+                            {% endfor %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Skills</td>
+                    <td>{{e.skills}}</td>
+                  </tr>
+                  <tr>
+                    <td>Availability</td>
+                    <td>{{e.availability}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="empcard ">
+          <div class="empcard-description">
+            <h2 class="empcard-description-title">{{e.user}}</h2>
+            <span class="empcard-description-subtitle">{{e.user.email}}</span>
+            <span class="empcard-description-subtitle">{{e.bio}}</span>
+            {% if e.skills %}
+              <span class="empcard-description-skills">Skills: {{e.skills}}</span>
+            {% endif %}
+            <div class="empcard-btn-box">
+              <button class="empcard-btn btn btn-light" onclick="viewEmp('mymodal{{forloop.counter0}}')">View More</button>
+              <form action="{% url 'employer:employerCreateThreads_view' %}" method="POST">
+                {% csrf_token %}
+                <button class="empcard-btn btn btn-info" type="submit" value="{{e.user}}" name="messageTo">Send Message</button>
+              </form>
+            </div>
+          </div>
+          <div class="emp-card-img">
+            {% if e.photo %}
+              <img class="empcard-image" src={{e.photo.url}}>
+            {% else %}
+              <img class="empcard-image" src="/media/avatar.png">
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

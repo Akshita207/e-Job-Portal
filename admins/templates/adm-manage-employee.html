@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    {% if confirm != '' %}
+      <div class="ui green message">{{confirm}}</div>
+    {% elif confirmError != '' %}
+      <div class="ui red message">{{confirmError}}</div>
+    {% endif %}
+    {% for e in employees %}
+      <div class="ui modal mymodal mymodal{{forloop.counter0}}">
+        <button style="float: right; margin: 10px;" onclick="hideEmp('mymodal{{forloop.counter0}}')"><i class="close icon" id="close-modal-btn"></i></button>
+        <div class="header"></div>
+        <div class="image content">
+        <div class="ui medium image">
+          <div class="prof-img">
+            <div class="prof-img">
+              {% if e.employee.photo %}
+                <img class="ui medium rounded image" src={{e.employee.photo.url}}>
+              {% else %}
+                <img class="ui medium rounded image" src="/media/avatar.png">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="description">
+          <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{e.form.as_p}}
+            <input hidden name="employeeid" value="{{e.employee.id}}">
+            <button type='submit' class="ui positive right labeled icon button">
+              Update<i class="checkmark icon"></i>
+            </button>
+          </form>
+        </div>
+        </div>
+      </div>
+      <div class="empcard ">
+        <div class="empcard-description">
+          <h2 class="empcard-description-title">{{e.employee.user}}</h2>
+          <span class="empcard-description-subtitle">{{e.employee.user.email}}</span>
+          <span class="empcard-description-subtitle">{{e.employee.bio}}</span>
+          <span class="empcard-description-skills">Skills: {{e.employee.skills}}</span>
+          <div style="display: flex; gap: 20px;">
+            <button class="empcard-btn btn btn-light" onclick="viewEmp('mymodal{{forloop.counter0}}')">Edit</button>
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button class="empcard-btn btn btn-danger" type="submit" value="{{e.employee.id}}" name="delete">Delete</button>
+            </form>
+          </div>
+        </div>
+        <div class="emp-card-img">
+          {% if e.employee.photo %}
+            <img class="empcard-image" src={{e.employee.photo.url}}>
+          {% else %}
+            <img class="empcard-image" src="/media/avatar.png">
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    {% if confirm %}
+      <div class="ui green message">Application reviewed successfully.</div>
+    {% elif confirmError != '' %}
+      <div class="ui red message">{{confirmError}}</div>
+    {% endif %}
+    {% for j in jobApplicantList %}
+    {% if j.applicant|length > 0 %}
+    <div class="applicantsBox">
+      <div class="ui modal mymodal mymodal{{forloop.counter0}}">
+        <button style="float: right; margin: 10px;" onclick="hideEmp('mymodal{{forloop.counter0}}')"><i class="close icon" id="close-modal-btn"></i></button>
+        <div class="header"></div>
+        <div class="image content">
+        <div class="ui medium image">
+          <div class="prof-img">
+            {% if j.job.logo %}
+              <img class="ui medium rounded image" src={{j.logo.url}}>
+            {% else %}
+              <img class="ui medium rounded image" src="/media/empty-img.png">
+            {% endif %}
+          </div>
+        </div>
+        <div class="description">
+          <table class="table table-striped table-dark">
+            <tbody>
+              {% if j.job.title %}
+                <tr>
+                  <td>Title</td>
+                  <td>{{j.job.title}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.company_name %}
+                <tr>
+                  <td>Company Name</td>
+                  <td>{{j.job.company_name}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.location %}
+                <tr>
+                  <td>Location</td>
+                  <td>{{j.job.location}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.about %}
+                <tr>
+                  <td>About</td>
+                  <td>{{j.job.about}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.qualifications %}
+                <tr>
+                  <td>Qualifications</td>
+                  <td>{{j.job.qualifications}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.responsibility %}
+                <tr>
+                  <td>Responsibility</td>
+                  <td>{{j.job.responsibility}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.experience %}
+                <tr>
+                  <td>Experience</td>
+                  <td>{{j.job.experience}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.job_type %}
+                <tr>
+                  <td>Job Type</td>
+                  <td>{{j.job.job_type}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.package %}
+                <tr>
+                  <td>Package</td>
+                  <td>{{j.job.package}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job.skills %}
+                <tr>
+                  <td>Skills</td>
+                  <td>{{j.job.skills}}</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+      <div class="empcard ">
+        <div class="empcard-description">
+          <h2 class="empcard-description-title">{{j.job.title}}</h2>
+          <span class="empcard-description-subtitle">{{j.job.company_name}}</span>
+          <span class="empcard-description-subtitle">{{j.job.location}}</span>
+          <div style="display: flex; gap: 20px;">
+            <button class="empcard-btn btn btn-light" onclick="viewEmp('mymodal{{forloop.counter0}}')">View More</button>
+          </div>
+        </div>
+        <div class="emp-card-img">
+          {% if j.job.logo %}
+            <img class="empcard-image" src={{j.job.logo.url}}>
+          {% else %}
+            <img class="empcard-image" src="/media/empty-img.png">
+          {% endif %}
+        </div>
+      </div>
+      <h2>Applicants -</h2>
+      {% for e in j.applicant %}
+        <div class="ui modal mymodal mymodal{{forloop.parent.counter0}}{{forloop.counter0}}">
+          <button style="float: right; margin: 10px;" onclick="hideEmp('mymodal{{forloop.parent.counter0}}{{forloop.counter0}}')"><i class="close icon" id="close-modal-btn"></i></button>
+          <div class="header"></div>
+          <div class="image content">
+            <div class="ui medium image">
+              <div class="prof-img">
+                {% if e.photo %}
+                  <img class="ui medium rounded image" src={{e.photo.url}}>
+                {% else %}
+                  <img class="ui medium rounded image" src="/media/avatar.png">
+                {% endif %}
+              </div>
+            </div>
+            <div class="description">
+              <table class="table table-striped table-dark">
+                <tbody>
+                  <tr>
+                    <td>Username</td>
+                    <td>{{e.user}}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>{{e.user.email}}</td>
+                  </tr>
+                  <tr>
+                    <td>Phone</td>
+                    <td>{{e.phone_no}}</td>
+                  </tr>
+                  <tr>
+                    <td>Resume</td>
+                    <td>
+                      {% if e.resume %}
+                        <a href="{{e.resume.url}}" target="_blank">{{e.resume}}</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Address</td>
+                    <td>{{e.location}}</td>
+                  </tr>
+                  <tr>
+                    <td>Achievement</td>
+                    <td>
+                      <div class="profCardBox">
+                        {% for a in e.achievement %}
+                          <div class="profCard">
+                            {% for value in a.values %}
+                              {{ value }}
+                            {% endfor %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Primary Role</td>
+                    <td>{{e.primary_role}}</td>
+                  </tr>
+                  <tr>
+                    <td>Secondary Role</td>
+                    <td>{{e.secondary_role}}</td>
+                  </tr>
+                  <tr>
+                    <td>Experience</td>
+                    <td>{{e.experience}}</td>
+                  </tr>
+                  <tr>
+                    <td>Social Profiles</td>
+                    <td>
+                      <div class="profCardBox">
+                        <div class="profCard">
+                          Website: {{e.social_profiles.website}}
+                        </div>
+                        <div class="profCard">
+                          Github: {{e.social_profiles.github}}
+                        </div>
+                        <div class="profCard">
+                          LinkedIn: {{e.social_profiles.linkedIn}}
+                        </div>
+                        <div class="profCard">
+                          Twitter: {{e.social_profiles.twitter}}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Work Experience</td>
+                    <td>
+                      <div class="profCardBox">
+                        {% for w in e.work_experience %}
+                          <div class="profCard">
+                            {% for value in w.values %}
+                              {{ value }}
+                            {% endfor %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Education</td>
+                    <td>
+                      <div class="profCardBox">
+                        {% for e in e.education %}
+                          <div class="profCard">
+                            {% for value in e.values %}
+                              {{ value }}
+                            {% endfor %}
+                          </div>
+                        {% endfor %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Skills</td>
+                    <td>{{e.skills}}</td>
+                  </tr>
+                  <tr>
+                    <td>Availability</td>
+                    <td>{{e.availability}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="empcard ">
+          <div class="empcard-description">
+            <h2 class="empcard-description-title">{{e.user}}</h2>
+            <span class="empcard-description-subtitle">{{e.user.email}}</span>
+            <span class="empcard-description-subtitle">{{e.bio}}</span>
+            {% if e.skills %}
+              <span class="empcard-description-skills">Skills: {{e.skills}}</span>
+            {% endif %}
+            <div style="display: flex; gap: 20px;">
+              <button class="empcard-btn btn btn-light" onclick="viewEmp('mymodal{{forloop.parent.counter0}}{{forloop.counter0}}')">View More</button>
+              <form action="" method="POST">
+                {% csrf_token %}
+                <button class="empcard-btn btn btn-success" type="submit" value="{{e.id}},{{j.job.id}},accepted" name="submit">Accept</button>
+                <button class="empcard-btn btn btn-danger" type="submit" value="{{e.id}},{{j.job.id}},rejected" name="submit">Reject</button>
+              </form>
+            </div>
+          </div>
+          <div class="emp-card-img">
+            {% if e.photo %}
+              <img class="empcard-image" src={{e.photo.url}}>
+            {% else %}
+              <img class="empcard-image" src="/media/avatar.png">
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

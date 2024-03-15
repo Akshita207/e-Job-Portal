@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    <h1 style="text-align: center; text-decoration: underline; margin-bottom: 2vw;">Pricing (per month)</h1>
+    <div>
+      <div class="empcard price-card">
+        <div class="empcard-description">
+          <h2 style="padding-bottom: 1vw; border-bottom: 1px solid black; font-weight: 600;">Free</h2>
+          <h4><i class="arrow right icon"></i>2 Active Posts</h4>
+        </div>
+      </div>
+      <div class="empcard price-card">
+        <div class="empcard-description">
+          <h2 style="padding-bottom: 1vw; border-bottom: 1px solid black; font-weight: 600;">
+            Basic (<i class="rupee sign icon"></i>400 / month)
+          </h2>
+          <h4><i class="arrow right icon"></i>6 Active Posts</h4>
+          <form action="{% url 'employer:checkOut' 1 %}" method="POST">
+            {% csrf_token %}
+            <button style="margin: 0 auto;" class="empcard-btn btn btn-light" type="submit" value="{{e.user}}" name="messageTo">Buy Now</button>
+          </form>
+        </div>
+      </div>
+      <div class="empcard price-card">
+        <div class="empcard-description">
+          <h2 style="padding-bottom: 1vw; border-bottom: 1px solid black; font-weight: 600;">
+            Pro (<i class="rupee sign icon"></i>800 / month)
+          </h2>
+          <h4><i class="arrow right icon"></i>20 Active Posts</h4>
+          <form action="{% url 'employer:checkOut' 2 %}" method="POST">
+            {% csrf_token %}
+            <button style="margin: 0 auto;" class="empcard-btn btn btn-light" type="submit" value="{{e.user}}" name="messageTo">Buy Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

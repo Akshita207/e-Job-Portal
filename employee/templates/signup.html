@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-bg">
+  <form method="post" class="ui form form-box">
+    {% csrf_token %}
+    <h2>Sign Up</h2>
+    <hr>
+    <div class="field">
+      <label>Name</label>
+      <input type="text" placeholder="Eg - Akshita Jain" name="name">
+    </div>
+    <div class="field">
+      <label>E-mail</label>
+      <input type="email" placeholder="Eg - akshita@gmail.com" name="email">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" placeholder="Eg - *********" name="pass">
+    </div>
+    <button type="submit" class="btn btn-light">Get Started</button>
+    <a href="{% url 'employee:employeeLogin_view' %}" >Already have an account? Sign-in here.</a>
+  </form>
+</div>
+{% endblock %}

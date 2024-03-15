@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    {% if confirm %}
+      <div class="ui green message">Job Post created successfully. It will be posted after the approval.</div>
+    {% elif confirmError != '' %}
+      <div class="ui red message">{{confirmError}}</div>
+    {% endif %}
+    {% if jobs|length < allowedPosts %}
+      <div class="job-post">
+        <h2>Post a new Job</h2>
+        <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+          {% csrf_token %}
+          {{form.as_p}}
+          {{ form.employer_id.as_hidden }}
+          <button type='submit' class="ui positive right labeled icon button">
+            Post<i class="checkmark icon"></i>
+          </button>
+        </form>
+      </div>
+    {% else %}
+      <div class="card text-white bg-secondary mb-3 p-5">
+        <h2>You have reached your post limit.</h2>
+        <h3><a style="color: white; text-decoration: underline;" href="{% url 'employer:employerPricing_view' %}">Purchase a plan to post more jobs</a></h3>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    {% if confirm %}
+      <div class="ui green message">Your application has been withdrawn successfully.</div>
+    {% elif confirmError != '' %}
+      <div class="ui red message">{{confirmError}}</div>
+    {% endif %}
+    {% for j in jobs %}
+      <div class="ui modal mymodal mymodal{{forloop.counter0}}">
+        <button style="float: right; margin: 10px;" onclick="hideEmp('mymodal{{forloop.counter0}}')"><i class="close icon" id="close-modal-btn"></i></button>
+        <div class="header"></div>
+        <div class="image content">
+        <div class="ui medium image">
+          <div class="prof-img">
+            {% if j.logo %}
+              <img class="ui medium rounded image" src={{j.logo.url}}>
+              {% else %}
+                <img class="ui medium rounded image" src="/media/empty-img.png">
+            {% endif %}
+          </div>
+        </div>
+        <div class="description">
+          <table class="table table-striped table-dark">
+            <tbody>
+              {% if j.status %}
+                <tr>
+                  <td>Status</td>
+                  <td>{{j.status}}</td>
+                </tr>
+              {% endif %}
+              {% if j.title %}
+                <tr>
+                  <td>Title</td>
+                  <td>{{j.title}}</td>
+                </tr>
+              {% endif %}
+              {% if j.company_name %}
+                <tr>
+                  <td>Company Name</td>
+                  <td>{{j.company_name}}</td>
+                </tr>
+              {% endif %}
+              {% if j.location %}
+                <tr>
+                  <td>Location</td>
+                  <td>{{j.location}}</td>
+                </tr>
+              {% endif %}
+              {% if j.about %}
+                <tr>
+                  <td>About</td>
+                  <td>{{j.about}}</td>
+                </tr>
+              {% endif %}
+              {% if j.qualifications %}
+                <tr>
+                  <td>Qualifications</td>
+                  <td>{{j.qualifications}}</td>
+                </tr>
+              {% endif %}
+              {% if j.responsibility %}
+                <tr>
+                  <td>Responsibility</td>
+                  <td>{{j.responsibility}}</td>
+                </tr>
+              {% endif %}
+              {% if j.experience %}
+                <tr>
+                  <td>Experience</td>
+                  <td>{{j.experience}}</td>
+                </tr>
+              {% endif %}
+              {% if j.job_type %}
+                <tr>
+                  <td>Job Type</td>
+                  <td>{{j.job_type}}</td>
+                </tr>
+              {% endif %}
+              {% if j.package %}
+                <tr>
+                  <td>Package</td>
+                  <td>{{j.package}}</td>
+                </tr>
+              {% endif %}
+              {% if j.skills %}
+                <tr>
+                  <td>Skills</td>
+                  <td>{{j.skills}}</td>
+                </tr>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+      <div class="empcard ">
+        <div class="empcard-description">
+          <h2 class="empcard-description-title">{{j.title}}</h2>
+          <span class="empcard-description-subtitle">{{j.company_name}}</span>
+          <span class="empcard-description-subtitle">{{j.location}}</span>
+          <span class="empcard-description-skills">Status: {{j.status}}</span>
+          <div class="empcard-btn-box">
+            <button class="empcard-btn btn btn-light" onclick="viewEmp('mymodal{{forloop.counter0}}')">View More</button>
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button class="empcard-btn btn btn-danger" type="submit" value="{{j.id}}" name="submit">Delete Job</button>
+            </form>
+          </div>
+        </div>
+        <div class="emp-card-img">
+          {% if j.logo %}
+            <img class="empcard-image" src={{j.logo.url}}>
+          {% else %}
+            <img class="empcard-image" src="/media/empty-img.png">
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

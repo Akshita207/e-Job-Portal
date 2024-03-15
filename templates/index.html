@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block head_title %}{% endblock %}
+
+{% block content %}
+  <div class="home-box">
+    <h1>e-Job Portal</h1>
+    <div class="home-content">
+      <div class="quote">
+        <h2>Join The Best</h2>
+        <h2>Be The Best</h2>
+      </div>
+      <br><hr>
+      <div class="home-btn">
+        <a href="{% url 'employee:employeeLogin_view' %}">
+          <button class="ui secondary button" onclick="redirectEmployeeLogin()">
+            Find your next Job
+          </button>
+        </a>
+        <span></span>
+        <a href="{% url 'employer:employerLogin_view' %}">
+          <button class="ui secondary button" onclick="redirectEmployerLogin()">
+            Find your next Hire
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+  <div class="page-box">
+    {% if confirm != '' %}
+      <div class="ui green message">{{confirm}}</div>
+    {% elif confirmError != '' %}
+      <div class="ui red message">{{confirmError}}</div>
+    {% endif %}
+    {% for j in jobs %}
+      <div class="ui modal mymodal mymodal{{forloop.counter0}}">
+        <button style="float: right; margin: 10px;" onclick="hideEmp('mymodal{{forloop.counter0}}')"><i class="close icon" id="close-modal-btn"></i></button>
+        <div class="header"></div>
+        <div class="image content">
+        <div class="ui medium image">
+          <div class="prof-img">
+            <div class="prof-img">
+              {% if j.job.logo %}
+                <img class="ui medium rounded image" src={{j.job.logo.url}}>
+              {% else %}
+                <img class="ui medium rounded image" src="/media/empty-img.png">
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="description">
+          <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+            {% csrf_token %}
+            {{j.form.as_p}}
+            <input hidden name="jobid" value="{{j.job.id}}">
+            <button type='submit' class="ui positive right labeled icon button">
+              Update<i class="checkmark icon"></i>
+            </button>
+          </form>
+        </div>
+        </div>
+      </div>
+      <div class="empcard ">
+        <div class="empcard-description">
+          <h2 class="empcard-description-title">{{j.job.title}}</h2>
+          <span class="empcard-description-subtitle">{{j.job.company_name}}</span>
+          <span class="empcard-description-subtitle">{{j.job.location}}</span>
+          <span class="empcard-description-skills">Status: {{j.job.status}}</span>
+          <div style="display: flex; gap: 20px;">
+            <button class="empcard-btn btn btn-light" onclick="viewEmp('mymodal{{forloop.counter0}}')">Edit</button>
+            <form action="" method="POST">
+              {% csrf_token %}
+              <button class="empcard-btn btn btn-danger" type="submit" value="{{j.job.id}}" name="delete">Delete</button>
+            </form>
+          </div>
+        </div>
+        <div class="emp-card-img">
+          {% if j.job.logo %}
+            <img class="empcard-image" src={{j.job.logo.url}}>
+          {% else %}
+            <img class="empcard-image" src="/media/empty-img.png">
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
